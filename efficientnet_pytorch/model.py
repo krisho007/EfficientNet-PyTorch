@@ -88,7 +88,7 @@ class MBConvBlock(nn.Module):
         self._project_conv = Conv2d(in_channels=oup, out_channels=final_oup, kernel_size=1, bias=False)
         self._bn2 = nn.BatchNorm2d(num_features=final_oup, momentum=self._bn_mom, eps=self._bn_eps)
 #         self._swish = MemoryEfficientSwish()
-        self._swish = mish_fn()
+        self._swish = Mish()
 
     def forward(self, inputs, drop_connect_rate=None):
         """MBConvBlock's forward function.

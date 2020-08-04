@@ -57,6 +57,10 @@ class Swish(nn.Module):
     def forward(self, x):
         return x * torch.sigmoid(x)
 
+class Mish(nn.Module):
+    def forward(self, x):
+        return x *(torch.tanh(F.softplus(x)))   
+   
 def mish_fn(x):
     """ Mish activation function from @lessw2020 :
         Code : https://github.com/lessw2020/Ranger-Mish-ImageWoof-5/blob/master/mxresnet.py

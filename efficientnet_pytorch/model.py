@@ -18,7 +18,7 @@ from .utils import (
     efficientnet_params,
     load_pretrained_weights,
     Swish,
-   mish_fn,
+    mish_fn,
     MemoryEfficientSwish,
     calculate_output_image_size
 )
@@ -217,7 +217,7 @@ class EfficientNet(nn.Module):
         self._dropout = nn.Dropout(self._global_params.dropout_rate)
         self._fc = nn.Linear(out_channels, self._global_params.num_classes)
 #         self._swish = MemoryEfficientSwish()
-         self._swish = mish_fn()
+        self._swish = mish_fn()
 
     def set_swish(self, memory_efficient=True):
         """Sets swish function as memory efficient (for training) or standard (for export).

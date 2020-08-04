@@ -57,6 +57,12 @@ class Swish(nn.Module):
     def forward(self, x):
         return x * torch.sigmoid(x)
 
+def mish_fn(x):
+    """ Mish activation function from @lessw2020 :
+        Code : https://github.com/lessw2020/Ranger-Mish-ImageWoof-5/blob/master/mxresnet.py
+        Blog post :  https://medium.com/@lessw/meet-mish-new-state-of-the-art-ai-activation-function-the-successor-to-relu-846a6d93471f
+    """
+    return x *(torch.tanh(F.softplus(x)))    
 
 # A memory-efficient implementation of Swish function
 class SwishImplementation(torch.autograd.Function):

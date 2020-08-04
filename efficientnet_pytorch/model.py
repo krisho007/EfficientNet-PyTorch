@@ -227,7 +227,7 @@ class EfficientNet(nn.Module):
 
         """
 #         self._swish = MemoryEfficientSwish() if memory_efficient else Swish()
-         self._swish = mish_fn()
+        self._swish = mish_fn()
         for block in self._blocks:
             block.set_swish(memory_efficient)
 

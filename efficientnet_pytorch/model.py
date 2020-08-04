@@ -18,6 +18,7 @@ from .utils import (
     efficientnet_params,
     load_pretrained_weights,
     Swish,
+   mish_fn,
     MemoryEfficientSwish,
     calculate_output_image_size
 )
@@ -86,7 +87,8 @@ class MBConvBlock(nn.Module):
         Conv2d = get_same_padding_conv2d(image_size=image_size)
         self._project_conv = Conv2d(in_channels=oup, out_channels=final_oup, kernel_size=1, bias=False)
         self._bn2 = nn.BatchNorm2d(num_features=final_oup, momentum=self._bn_mom, eps=self._bn_eps)
-        self._swish = MemoryEfficientSwish()
+#         self._swish = MemoryEfficientSwish()
+        self._swish = mish_fn()
 
     def forward(self, inputs, drop_connect_rate=None):
         """MBConvBlock's forward function.
@@ -137,7 +139,8 @@ class MBConvBlock(nn.Module):
         Args:
             memory_efficient (bool): Whether to use memory-efficient version of swish.
         """
-        self._swish = MemoryEfficientSwish() if memory_efficient else Swish()
+#         self._swish = MemoryEfficientSwish() if memory_efficient else Swish()
+        self._swish = mish_fn()
 
 
 class EfficientNet(nn.Module):
@@ -213,7 +216,8 @@ class EfficientNet(nn.Module):
         self._avg_pooling = nn.AdaptiveAvgPool2d(1)
         self._dropout = nn.Dropout(self._global_params.dropout_rate)
         self._fc = nn.Linear(out_channels, self._global_params.num_classes)
-        self._swish = MemoryEfficientSwish()
+#         self._swish = MemoryEfficientSwish()
+         self._swish = mish_fn()
 
     def set_swish(self, memory_efficient=True):
         """Sets swish function as memory efficient (for training) or standard (for export).
@@ -222,7 +226,8 @@ class EfficientNet(nn.Module):
             memory_efficient (bool): Whether to use memory-efficient version of swish.
 
         """
-        self._swish = MemoryEfficientSwish() if memory_efficient else Swish()
+#         self._swish = MemoryEfficientSwish() if memory_efficient else Swish()
+         self._swish = mish_fn()
         for block in self._blocks:
             block.set_swish(memory_efficient)
 

@@ -18,7 +18,7 @@ from .utils import (
     efficientnet_params,
     load_pretrained_weights,
     Swish,
-    mish_fn,
+    Mish,
     MemoryEfficientSwish,
     calculate_output_image_size
 )
@@ -140,7 +140,7 @@ class MBConvBlock(nn.Module):
             memory_efficient (bool): Whether to use memory-efficient version of swish.
         """
 #         self._swish = MemoryEfficientSwish() if memory_efficient else Swish()
-        self._swish = mish_fn()
+        self._swish = Mish()
 
 
 class EfficientNet(nn.Module):
@@ -217,7 +217,7 @@ class EfficientNet(nn.Module):
         self._dropout = nn.Dropout(self._global_params.dropout_rate)
         self._fc = nn.Linear(out_channels, self._global_params.num_classes)
 #         self._swish = MemoryEfficientSwish()
-        self._swish = mish_fn()
+        self._swish = Mish()
 
     def set_swish(self, memory_efficient=True):
         """Sets swish function as memory efficient (for training) or standard (for export).
@@ -227,7 +227,7 @@ class EfficientNet(nn.Module):
 
         """
 #         self._swish = MemoryEfficientSwish() if memory_efficient else Swish()
-        self._swish = mish_fn()
+        self._swish = Mish()
         for block in self._blocks:
             block.set_swish(memory_efficient)
 
